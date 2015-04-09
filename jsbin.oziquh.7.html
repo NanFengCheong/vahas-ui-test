@@ -1,0 +1,130 @@
+
+<meta name="robots" content="noindex">
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>Vahas</title>
+
+	
+	<link rel="stylesheet" type="text/css" href="dist/jquery.gridster.css">
+
+	
+	<link rel="stylesheet" href="uikit.min.css" />
+	<script src="uikit.min.js"></script>
+</head>
+<body>
+
+	<h1>Welcome to VAHAS!</h1>
+	<h4>Visual Assisted Home Automation Server</h4>
+
+	<nav class="uk-navbar">
+		<ul class="uk-navbar-nav">
+			<li class="uk-active"><a href="">Homepage</a></li>
+			<li><a href="">Menu</a></li>
+			<li class="uk-parent"><a href="">...</a></li>
+		</ul>
+	</nav>
+
+
+
+	<div class = "uk-animation-fade uk-animation-5" role="main">
+
+		<section class="demo">
+
+			<div style = "float: left;width: 200px;height: 100px;margin: 1em;">
+				<ul class="uk-tab uk-tab-left uk-width-medium-1-2 " data-uk-tab>
+					
+					<li class="uk-active"><a href="">All</a></li>
+					<li><a href="" >Ground Floor</a></li>
+					<li><a href="" id = "nav2">First Floor</a></li>
+					<li><a href="" id = "nav3">Outdoor</a></li>
+					
+				</ul>
+			</div>
+			<div class="gridster">
+
+				<ul>
+				</ul>
+			</div>
+
+		</section>
+
+
+
+	</div>
+
+	<div id="sdialog" class="uk-modal">
+    <div class="uk-modal-dialog">
+        <a class="uk-modal-close uk-close"></a>
+        Long Tap trigger
+    </div>
+</div>
+
+	<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+	<script src="dist/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" src="../ejs/ejs_production.js"></script>
+
+
+	<script id="jsbin-javascript">
+//var items =[];
+
+
+
+  // $( "<ul/>", {
+  //   "class": "gridster",
+  //   html: items.join( "" )
+  // }).appendTo( "body" );
+
+var gridster;
+$(function(){
+
+	gridster = $(".gridster > ul").gridster({
+		widget_margins: [5, 5],
+		widget_base_dimensions: [100, 100],
+		min_cols: 3,
+		max_cols: 6
+	}).data('gridster');
+
+	$.getJSON( "http://192.168.1.30:3000/api/components", function( data ) {
+
+		$.each( data, function(index,value) {
+			gridster.add_widget("<li class = 'components' data-row='1' data-col='1' data-sizex='1' data-sizey='1'>" + "<center><h4>" + data[index].type +"</br>" + " " + "<p>"+ data[index].val+"</p></h3></center><button class='uk-button' data-uk-modal='{target:'#sdialog'}'>...</button></li>", 1, 1);
+
+
+
+        //console.log(data[index].id + " " + data[index].category);
+    });
+		UIkit.notify({
+    message : 'Bazinga!',
+    status  : 'info',
+    timeout : 5000,
+    pos     : 'top-center'
+});
+	});
+
+});
+
+$(document).ready(function(){
+	$(".gridster").on('click', '.uk-button', function() {
+    alert('you clicked a p.test element');
+})
+
+	$(".nav1").click(function(){
+		alert('Ground Floor!');
+	});
+
+	$(".uk-tab li").click(function(){
+		alert("clicke");
+		$(this).attr("class", "uk-active");
+	});
+});
+
+
+
+
+</script>
+
+</body>
+</html>
